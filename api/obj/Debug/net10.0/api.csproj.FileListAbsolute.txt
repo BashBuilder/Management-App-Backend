@@ -144,3 +144,4 @@ C:\Users\iamad\OneDrive\Desktop\dotnet\ManagementApp\api\obj\Debug\net10.0\refin
 C:\Users\iamad\OneDrive\Desktop\dotnet\ManagementApp\api\obj\Debug\net10.0\api.pdb
 C:\Users\iamad\OneDrive\Desktop\dotnet\ManagementApp\api\obj\Debug\net10.0\api.genruntimeconfig.cache
 C:\Users\iamad\OneDrive\Desktop\dotnet\ManagementApp\api\obj\Debug\net10.0\ref\api.dll
+C:\Users\iamad\OneDrive\Desktop\dotnet\ManagementApp\api\bin\Debug\net10.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

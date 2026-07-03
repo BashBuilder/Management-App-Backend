@@ -9,6 +9,23 @@ POST {{base_address}}
 Content-Type: application/json
 
 {
-  "firstName": "John",
+  "firstName": "Immaculate joe",
   "lastName": "Doe"
 }
+
+
+###
+GET {{base_address}}/1
+
+###
+PUT {{base_address}}/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "firstName": "Immaculate",
+  "lastName": "Doe"
+}
+
+###
+DELETE {{base_address}}/1
