@@ -1,0 +1,32 @@
+@base_address = http://localhost:5151/api/authentication
+
+###
+# GET {{base_address}}
+
+###
+POST {{base_address}}/register-user
+Content-Type: application/json
+
+{
+  "username": "Anthony",
+  "email": "a@b.c",
+  "password" : "Qweasd123!"
+
+}
+
+
+# ###
+# GET {{base_address}}/1
+
+# ###
+# PUT {{base_address}}/1
+# Content-Type: application/json
+
+# {
+#   "id": 1,
+#   "firstName": "Immaculate",
+#   "lastName": "Doe"
+# }
+
+# ###
+# DELETE {{base_address}}/1
