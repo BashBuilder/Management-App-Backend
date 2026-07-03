@@ -1,0 +1,14 @@
+@base_address = http://localhost:5151/api/People
+
+###
+GET {{base_address}}
+
+
+###
+POST {{base_address}}
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe"
+}
