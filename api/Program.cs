@@ -1,39 +1,21 @@
-using api.Models;
-
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+using api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-
-builder.Services.AddCors(options =>
-{
-  options.AddPolicy(name: MyAllowSpecificOrigins,
-                    policy =>
-                    {
-                      policy.WithOrigins("http://localhost:3000")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
-});
-
-
-string connectionString = builder.Configuration.GetConnectionString("Default")
-                          ?? throw new ArgumentNullException("Connection string not found.");
-
-builder.Services.AddSqlite<AppDbContext>(connectionString);
+builder.Services.AddCorsConfiguration();
+builder.Services.AddDatabase(builder.Configuration);
+builder.Services.AddIdentityConfiguration();
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
-
+// Add Middlware for the proper application running
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseCors(MyAllowSpecificOrigins);
-
-
-// Add Middleware to the HTTP request pipeline.
+app.UseCors(CorsServiceExtensions.MyAllowSpecificOrigins);
 app.MapGet("/health", () => "Server is healthy");
 app.MapControllers();
 
