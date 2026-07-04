@@ -1,4 +1,5 @@
 using api.Models;
+using api.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ namespace api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = $"{UserRolesDto.Admin},{UserRolesDto.People}")]
     public class PeopleController(AppDbContext context) : ControllerBase
     {
         private readonly AppDbContext _context = context;

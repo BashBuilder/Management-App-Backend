@@ -1,3 +1,4 @@
+using api.Data;
 using api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,8 +20,13 @@ app.UseCors(CorsServiceExtensions.MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+
 // map routes
 app.MapGet("/health", () => "Server is healthy");
 app.MapControllers();
+
+// db actions
+await app.SeedRoles();
 
 app.Run();

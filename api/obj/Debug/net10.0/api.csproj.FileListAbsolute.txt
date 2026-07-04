@@ -153,3 +153,4 @@ C:\Users\iamad\OneDrive\Desktop\dotnet\ManagementApp\api\bin\Debug\net10.0\Micro
 C:\Users\iamad\OneDrive\Desktop\dotnet\ManagementApp\api\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\iamad\OneDrive\Desktop\dotnet\ManagementApp\api\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\iamad\OneDrive\Desktop\dotnet\ManagementApp\api\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\iamad\OneDrive\Desktop\dotnet\ManagementApp\api\bin\Debug\net10.0\.http.env.json

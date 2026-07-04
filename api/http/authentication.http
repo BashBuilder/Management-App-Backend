@@ -1,16 +1,13 @@
 @base_address = http://localhost:5151/api/authentication
 
 ###
-# GET {{base_address}}
-
-###
 POST {{base_address}}/register-user
 Content-Type: application/json
 
 {
-  "username": "Anthony",
-  "email": "a@b.c",
-
+  "username": "Adminanthony",
+  "email": "admin@b.c",
+  "role" : "Admin"
 }
 
 ###
@@ -18,9 +15,17 @@ POST {{base_address}}/login-user
 Content-Type: application/json
 
 {
-  "email": "a@b.c",
+  "email": "admin@b.c",
 
+}
 
+### 
+POST {{base_address}}/refresh-token
+Content-Type: application/json
+
+{
+  "token":"",
+   "refreshToken": ""
 }
 
 

@@ -1,7 +1,8 @@
 @base_address = http://localhost:5151/api/People
-
+@base_token =
 ###
 GET {{base_address}}
+Authorization: Bearer {{base_token}}
 
 
 ###
@@ -20,6 +21,7 @@ GET {{base_address}}/1
 ###
 PUT {{base_address}}/1
 Content-Type: application/json
+Authorization: Bearer {{base_token}}
 
 {
   "id": 1,
