@@ -16,6 +16,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors(CorsServiceExtensions.MyAllowSpecificOrigins);
+app.UseAuthentication();
+app.UseAuthorization();
+
+// map routes
 app.MapGet("/health", () => "Server is healthy");
 app.MapControllers();
 
