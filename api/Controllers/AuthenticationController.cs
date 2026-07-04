@@ -1,8 +1,12 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using api.Models;
 using api.Models.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace api.Controllers
 {
@@ -26,6 +30,10 @@ namespace api.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Please, provide all required fields");
+                }
                 var userExists = await _userManager.FindByEmailAsync(payload.Email);
 
                 if (userExists is not null)
@@ -55,7 +63,72 @@ namespace api.Controllers
             }
         }
 
+        [HttpPost("login-user")]
+        public async Task<IActionResult> LoginUser([FromBody] LoginVM payload)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Please, provide all required fields");
+            }
+            var user = await _userManager.FindByEmailAsync(payload.Email);
+            if (user is not null && await _userManager.CheckPasswordAsync(user, payload.Password))
+            {
+                var tokenValue = await GenerateJwtToken(user);
+                return Ok(tokenValue);
+            }
+
+            return Unauthorized("Invalid Credentials");
+        }
+
+        private async Task<AuthResultVM> GenerateJwtToken(ApplicationUser user)
+        {
+            var authClaims = new List<Claim>()
+            {
+                new(ClaimTypes.Name, user.UserName),
+                new(ClaimTypes.NameIdentifier, user.Id ),
+                new(JwtRegisteredClaimNames.Email, user.Email),
+                new(JwtRegisteredClaimNames.Sub, user.Email ),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new(JwtRegisteredClaimNames.Email, user.Email ),
+            };
 
 
+            var authSigningKey = new SymmetricSecurityKey(
+                  Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]
+                      ?? throw new ArgumentNullException("Jwt secret not found")));
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:Issuer"],
+                audience: _configuration["JWT:Audience"],
+                expires: DateTime.UtcNow.AddMinutes(5),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+            );
+
+            var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+            var refreshToken = new RefreshToken()
+            {
+                JwtId = token.Id,
+                IsRevoked = false,
+                UserId = user.Id,
+                CreatedAt = DateTime.UtcNow,
+                UpdateAt = DateTime.UtcNow,
+                Token = Guid.NewGuid().ToString() + "-" + Guid.NewGuid().ToString(),
+                DateExpire = DateTime.UtcNow.AddMonths(6),
+                User = user
+            };
+
+            await _dbContext.RefreshTokens.AddAsync(refreshToken);
+            await _dbContext.SaveChangesAsync();
+
+            var response = new AuthResultVM()
+            {
+                Token = jwtToken,
+                RefreshToken = refreshToken.Token,
+                ExpiresAt = token.ValidTo
+            };
+
+            return response;
+        }
     }
 }

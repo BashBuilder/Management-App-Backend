@@ -10,23 +10,17 @@ Content-Type: application/json
 {
   "username": "Anthony",
   "email": "a@b.c",
-  "password" : "Qweasd123!"
+
+}
+
+###
+POST {{base_address}}/login-user
+Content-Type: application/json
+
+{
+  "email": "a@b.c",
+
 
 }
 
 
-# ###
-# GET {{base_address}}/1
-
-# ###
-# PUT {{base_address}}/1
-# Content-Type: application/json
-
-# {
-#   "id": 1,
-#   "firstName": "Immaculate",
-#   "lastName": "Doe"
-# }
-
-# ###
-# DELETE {{base_address}}/1
